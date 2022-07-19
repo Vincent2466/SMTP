@@ -5,7 +5,7 @@ pipeline {
       stage('Build') {
          steps {
             // Get some code from a GitHub repository
-            git branch: 'master', changelog: false, credentialsId: 'GIT', poll: false, url: 'https://github.com/surendra143245/smtp.git'
+            git branch: 'master', changelog: false, credentialsId: 'GIT', poll: false, url: 'https://github.com/Vincent2466/SMTP.git'
 
             // Run Maven on a Unix agent.
             sh "mvn package"

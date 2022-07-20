@@ -1,43 +1,49 @@
 pipeline {
-   agent any
 
-   stages {
-      stage('Build') {
-         steps {
-            // Get some code from a GitHub repository
-            git branch: 'master', changelog: false, credentialsId: 'GIT', poll: false, url: 'https://github.com/Vincent2466/SMTP.git'
+    agent any
 
-            // Run Maven on a Unix agent.
-            sh "mvn package"
+    stages {
 
-            // To run Maven on a Windows agent, use
-            // bat "mvn -Dmaven.test.failure.ignore=true clean package"
-         }
-        post {
-            // If Maven was able to run the tests, even if some of the test
-            // failed, record the test results and archive the jar file.
-            success {
-               archiveArtifacts 'target/*.war'
-            }
+        stage('Build') {
+
+            steps {
+
+           echo "build"    
+
+                sh "javac Hello.java"
+
             }
 
-      }
-      stage('deploy'){
-          steps {
-              sh "sudo cp /var/lib/jenkins/workspace/web-pipeline/target/spring3-mvc-maven-xml-hello-world-1.2.war /var/lib/tomcat/webapps/"
-          }
+        }
 
-    }
-    stage ('success'){
+        stage('execute') {
+
+            steps {
+
+               echo "test"
+
+                sh "java Hello"
+
+            }
+
+        }
+
+        stage('Deploy') {
+
+            steps {
+
+              echo "deploy"
+
+            }
+
+        }
+        stage ('success'){
             steps {
                 script {
                     currentBuild.result = 'SUCCESS'
                 }
             }
-        }
-    }
-
-    post {
+             post {
         failure {
             script {
                 currentBuild.result = 'FAILURE'
@@ -51,4 +57,8 @@ pipeline {
                 sendToIndividuals: true])
         }
     }
+
+    }
+    }
+
 }

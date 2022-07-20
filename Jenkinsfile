@@ -10,7 +10,7 @@ pipeline {
 
            echo "build"    
 
-                sh "javac Helloworld.java"
+                sh "javac Hello.java"
 
             }
 
@@ -22,7 +22,7 @@ pipeline {
 
                echo "test"
 
-                sh "java Helloworld"
+                sh "java Hello"
 
             }
 
